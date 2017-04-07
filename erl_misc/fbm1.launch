@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find erl_misc)/camera.launch" />
+    <include file="$(find mcr_object_detection)/ros/launch/object_detection.launch">
+      <!--arg name="workspace_finder_config_file" default="$(find mcr_scene_segmentation)/ros/config/workspace_constraints.yaml" />
+      <arg name="object_constraints_config_file" default="$(find mcr_scene_segmentation)/ros/config/object_constraints.yaml" /-->
+      <arg name="input_pointcloud_topic" value="/camera/depth_registered/points"/>
+      <arg name="camera_frame" value="camera_rgb_optical_frame" />
+      <arg name="target_frame" value="/base_link" />
+    </include>
+
+    <include file="$(find mcr_perception_msgs)/ros/launch/object_list_image_adder.launch">
+      <arg name="input_image_topic" default="/camera/rgb/image_raw" />
+    </include>
+
+    <!-- Alvar marker tracker -->
+    <arg name="marker_size" default="5.0" />
+    <arg name="max_new_marker_error" default="0.1" />
+    <arg name="max_track_error" default="0.2" />
+        
+    <arg name="cam_image_topic" default="/camera/rgb/image_raw" />
+    <arg name="cam_info_topic" default="/camera/rgb/camera_info" />
+        
+    <arg name="output_frame" default="/camera_rgb_optical_frame" />
+    <arg name="bundle_files" default="/home/ivan/robocup_ws/src/ar_track_alvar/bundles/" />
+
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)"/>
+
+</launch>
+

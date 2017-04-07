@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot" default="$(optenv ROBOT !!NO_ROBOT_SET!!)"/>
+  <arg name="erl_test_name"/>
+  <arg name="erl_test_date"/>
+  <arg name="erl_test_team" default="b-it-bots"/>
+
+  <node pkg="topic_tools" type="relay" name="relay" output="screen" args="/camera/rgb/camera_info /rockin/rgb/camera_info" />
+
+  <!--node pkg="rosbag" type="record" name="erl_rosbag" output="screen" args="- -lz4 -O /mnt/erl_stick/$(arg erl_test_name)_$(arg erl_test_date)_$(arg erl_test_team).bag /tf /rockin/depth_0/pointcloud /rockin/rgb/camera_info /rockin/rgb/image /rockin/robot_pose /rockin/marker_pose /rockin/trajectory /rockin/scan_0 /rockin/scan_1"/-->
+  <node pkg="rosbag" type="record" name="erl_rosbag" output="screen" args="--lz4 -O /home/ivan/$(arg erl_test_name)_$(arg erl_test_date)_$(arg erl_test_team).bag /tf /rockin/depth_0/pointcloud /rockin/rgb/camera_info /rockin/rgb/image /rockin/robot_pose /rockin/marker_pose /rockin/trajectory /rockin/scan_0 /rockin/scan_1"/>
+</launch>
